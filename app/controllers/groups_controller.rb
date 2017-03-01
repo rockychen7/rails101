@@ -1,10 +1,11 @@
 class GroupsController < ApplicationController
-  before_action :authenticate_user!
+
+  before_action :authenticate_user! , only: [:new, :create, :edit, :update, :destroy]
+  before_action :find_group_and_check_permission, only: [:edit, :update, :destroy]
 
   def index
     @groups = Group.all
   end
-end
 
   def show
     @group = Group.find(params[:id])
@@ -28,7 +29,6 @@ end
     else
       render :new
     end
-
   end
 
   def update
@@ -81,7 +81,6 @@ end
   end
 
   def group_params
-    params.require(:group).permit(:title, :description)
-  end
-
+     params.require(:group).permit(:title, :description)
+   end
 end
